@@ -1,7 +1,32 @@
+$DARK: #222427;
+$LIGHT: #f1f2f3;
+$PRIMARY: #0066ff;
 .search {
   width: 100%;
-
+  padding: 1rem;
+  position: relative;
   input {
     width: 100%;
+    padding: 1rem;
+    background-color: transparentize($LIGHT, 0.7);
+    border: 1px solid transparentize($PRIMARY, 0.7);
+    border-radius: 8px;
+    font-size: 1rem;
+    color: lighten($DARK, 10%);
+    &:focus {
+      outline: 0.2rem solid transparentize($PRIMARY, 0.9);
+    }
+  }
+  button {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    padding: 0.5rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  img {
+    width: 2rem;
   }
 }
