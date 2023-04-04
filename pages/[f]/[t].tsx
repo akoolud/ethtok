@@ -1,14 +1,20 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
-import styles from "../styles/Home.module.scss";
-import { useGetLatest } from "../util/tx";
+import styles from "../../styles/Home.module.scss";
+import { useGetMessageList } from "../../util/tx";
 
 export default function Home() {
-  const [val, setval] = React.useState(
-    "0xb66cd966670d962c227b3eaba30a872dbfb995db"
+  const router = useRouter();
+
+  const { f, t } = router.query;
+  console.log("router.query", router.query);
+
+  const [messagesLoading, messagesErr, messages] = useGetMessageList(
+    f?.toString(),
+    t?.toString()
   );
-  const [hotLoading, hotErr, hot] = useGetLatest();
 
   return (
     <div className={"container"}>
@@ -31,28 +37,31 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">EthTok</a>
         </h1>
-        <div className={styles.search}>
-          <input value={val} onChange={(e) => setval(e.target.value)} />
-          <button>
-            <img src="/assets/img/search.png" alt="" />
-          </button>
-        </div>
         <div className={styles["card-container"]}>
-          <h3>Latest Conversations</h3>
-          {val && hotLoading ? (
+          <h3 className={styles["title"]}>
+            Conversations Between{" "}
+            <div>
+              <h4>{f}</h4>⇄<h4>{t}</h4>
+            </div>
+          </h3>
+          {messagesLoading ? (
             <p>
-              Loading Conversations For <a>{val}</a>
+              Loading Conversations Between <a>{f}</a>
+              <a>{t}</a>
             </p>
-          ) : hot.length ? (
-            hot.map((c, i) => (
-              <Link
-                key={"hotcard" + i}
-                className={styles["hot"]}
-                href={"/" + c.address}
-              >
-                <h5>{c.name}</h5>
-                <h4>{c.address}</h4>
-              </Link>
+          ) : messages.messages?.length ? (
+            messages.messages.map((c, i) => (
+              <div key={"msgcard" + i} className={styles["msg"]}>
+                <div className={styles["msg-head"]}>
+                  <h5 className={c.from === f ? styles["active"] : ""}>
+                    {c.from}
+                  </h5>
+                  <div>⇄</div>
+                  <h5 className={c.to === f ? styles["active"] : ""}>{c.to}</h5>
+                </div>
+                <h4>{c.d}</h4>
+                <div className={styles["msg-footer"]}>{c.timestamp}</div>
+              </div>
             ))
           ) : (
             <p className={styles.description}>No results</p>
