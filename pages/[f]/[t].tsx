@@ -3,13 +3,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import styles from "../../styles/Home.module.scss";
+import { GetDateString } from "../../util/date";
 import { useGetMessageList } from "../../util/tx";
 
 export default function Home() {
   const router = useRouter();
-
   const { f, t } = router.query;
-  console.log("router.query", router.query);
 
   const [messagesLoading, messagesErr, messages] = useGetMessageList(
     f?.toString(),
@@ -64,12 +63,13 @@ export default function Home() {
                   </h5>
                   <div>⇄</div>
                   <h5 className={c.to === f ? styles["active"] : ""}>
-                    {" "}
                     <a href={"/" + t}>{c.to}</a>
                   </h5>
                 </div>
                 <h4>{c.d}</h4>
-                <div className={styles["msg-footer"]}>{c.timestamp}</div>
+                <div className={styles["msg-footer"]}>
+                  <p>{GetDateString(c.timeStamp)}</p>
+                </div>
               </div>
             ))
           ) : (

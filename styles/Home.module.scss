@@ -82,7 +82,6 @@ $PRIMARY: #0066ff;
 }
 .msg {
   width: 100%;
-  margin: 0.375rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,6 +114,21 @@ $PRIMARY: #0066ff;
   }
   h4 {
     padding: 0.5rem;
+    width: 100%;
+  }
+  .msg-footer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    p {
+      font-size: 0.6rem;
+      font-style: italic;
+      margin: 0;
+      color: #818284;
+      padding: 0.375rem;
+    }
   }
 }
 .convo {
