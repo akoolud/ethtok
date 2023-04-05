@@ -72,22 +72,12 @@ export const useGetConversationList = (
       // const txData = await getTransactions(address);
       const txData = Fake;
       let total = txData.result?.length || 0;
-      let convos = txData.result.map((i) => {
-        let d = Buffer.from(i.input.substring(2), "hex").toString();
-        return CheckIfMakesSense(d)
-          ? { d: d, from: i.from, to: i.to, timeStamp: i.timeStamp }
-          : null;
-      });
-
+      let convos = __GetReadable__(txData.result);
       convos = convos.filter((i) => i && i.d.length);
       let totalW = convos.length || 0;
-      let uconvos = convos.filter(
-        (x, i, a) => a.findIndex((y) => x.to === y.to) === i
-      );
-      let groupedConvos = uconvos.reduce((arr, uc) => {
-        (arr[uc["to"]] = arr[uc["to"]] || []).push(
-          convos.filter((i) => i.to === uc.to).length
-        );
+      let uconvosAdress = __GetUnique__(convos, address);
+      let groupedConvos = uconvosAdress.reduce((arr, uc) => {
+        (arr[uc] = arr[uc] || []).push(__Filter__(convos, uc, address).length);
         return arr;
       }, {});
 
@@ -135,15 +125,9 @@ export const useGetMessageList = (
       // const txData = await getTransactions(address);
       const txData = Fake;
       let total = txData.result?.length || 0;
-      let msg = txData.result.map((i) => {
-        let d = Buffer.from(i.input.substring(2), "hex").toString();
-        return CheckIfMakesSense(d) && i.to === other
-          ? { d: d, from: i.from, to: i.to, timeStamp: i.timeStamp }
-          : null;
-      });
-      console.log("msg", msg);
-
-      msg = msg.filter((i) => i && i.d.length);
+      let convos = __GetReadable__(txData.result, other);
+      convos = convos.filter((i) => i && i.d.length);
+      let msg = __Filter__(convos, other, address);
 
       setloading(false);
       seterr("");
@@ -157,7 +141,34 @@ export const useGetMessageList = (
       seterr(err.toString());
       setmsg({});
     }
-  }, [address]);
+  }, [address, other]);
 
   return [loading, err, msg];
+};
+
+const __GetReadable__ = (list: any[], other?: string) => {
+  return list.map((i) => {
+    let d = Buffer.from(i.input.substring(2), "hex").toString();
+    return CheckIfMakesSense(d) &&
+      (other ? i.to === other || i.from === other : true)
+      ? { d: d, from: i.from, to: i.to, timeStamp: i.timeStamp }
+      : null;
+  });
+};
+
+const __GetUnique__ = (list: any[], address: string) => {
+  return list
+    .reduce((s, i) => [...s, i.to, i.from], [])
+    .filter((x, i, a) => a.indexOf(x) === i);
+};
+
+const __Filter__ = (list: any[], uc: string, address: string) => {
+  console.log("i", uc, list[0]);
+  return list.filter((i) => {
+    return (
+      (i.to !== address && i.to === uc) ||
+      (i.from !== address && i.from === uc) ||
+      (i.to === address && i.from === address)
+    );
+  });
 };

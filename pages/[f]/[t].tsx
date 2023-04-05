@@ -39,25 +39,34 @@ export default function Home() {
         </h1>
         <div className={styles["card-container"]}>
           <h3 className={styles["title"]}>
-            Conversations Between{" "}
+            Conversations Between ({messages?.messages?.length || ""})
             <div>
-              <h4>{f}</h4>⇄<h4>{t}</h4>
+              <a href={"/" + f}>
+                <h4>{f}</h4>
+              </a>
+              ⇄
+              <a href={"/" + t}>
+                <h4>{t}</h4>
+              </a>
             </div>
           </h3>
           {messagesLoading ? (
             <p>
-              Loading Conversations Between <a>{f}</a>
-              <a>{t}</a>
+              Loading Conversations Between <a href={"/" + f}>{f}</a>
+              <a href={"/" + t}>{t}</a>
             </p>
           ) : messages.messages?.length ? (
             messages.messages.map((c, i) => (
               <div key={"msgcard" + i} className={styles["msg"]}>
                 <div className={styles["msg-head"]}>
                   <h5 className={c.from === f ? styles["active"] : ""}>
-                    {c.from}
+                    <a href={"/" + f}> {c.from}</a>
                   </h5>
                   <div>⇄</div>
-                  <h5 className={c.to === f ? styles["active"] : ""}>{c.to}</h5>
+                  <h5 className={c.to === f ? styles["active"] : ""}>
+                    {" "}
+                    <a href={"/" + t}>{c.to}</a>
+                  </h5>
                 </div>
                 <h4>{c.d}</h4>
                 <div className={styles["msg-footer"]}>{c.timestamp}</div>
