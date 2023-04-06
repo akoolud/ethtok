@@ -163,12 +163,10 @@ const __GetUnique__ = (list: any[], address: string) => {
 };
 
 const __Filter__ = (list: any[], uc: string, address: string) => {
-  console.log("i", uc, list[0]);
-  return list.filter((i) => {
-    return (
+  return list.filter(
+    (i) =>
       (i.to !== address && i.to === uc) ||
       (i.from !== address && i.from === uc) ||
       (i.to === address && i.from === address)
-    );
-  });
+  );
 };

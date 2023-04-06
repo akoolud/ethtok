@@ -43,7 +43,7 @@ export default function ConversatioPage() {
       {" "}
       <main>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">EthTok</a>
+          Welcome to <a href="/">EthTok</a>
         </h1>
         <div className={styles.search}>
           <input value={val} onChange={(e) => setval(e.target.value)} />

@@ -24,7 +24,15 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
       {children}
       <style jsx>{``}</style>
-
+      <footer>
+        <div>
+          <a href="https://twitter.com/stonecoldpat0" rel="nofollow">
+            @Patrick McCorry
+          </a>
+          made me do this
+        </div>
+        <span>☕ 0x245F8445DAfdE3D3bc8ef4dCCC2a4550Ee091B55</span>
+      </footer>
       <style jsx global>{`
         html,
         body {
@@ -61,6 +69,23 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+        }
+        footer {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        footer a {
+          color: cornflowerblue;
+          padding: 0 0.375rem;
+        }
+        footer span {
+          color: grey;
+          text-transform: uppercase;
+          font-size: 0.6rem;
+          padding: 0.15rem;
         }
       `}</style>
     </div>
