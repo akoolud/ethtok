@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { Layout } from "../../components/Layout";
+import { Title } from "../../components/Title";
 import styles from "../../styles/Home.module.scss";
 import { GetDateString } from "../../util/date";
 import { useGetMessageList } from "../../util/tx";
@@ -19,19 +20,42 @@ export default function Home() {
   return (
     <Layout>
       <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">EthTok</a>
-        </h1>
+        <Title />
+        {messagesErr && <p className="error">{messagesErr}</p>}
         <div className={styles["card-container"]}>
-          <h3 className={styles["title"]}>
+          <h3
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             Conversations Between ({messages?.messages?.length || ""})
-            <div>
-              <a href={"/" + f}>
-                <h4>{f}</h4>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <a
+                href={"/" + f}
+                style={{
+                  padding: "0 0.2rem",
+                  fontSize: "0.7rem",
+                  textTransform: "uppercase",
+                }}
+              >
+                {f}
               </a>
-              ⇄
-              <a href={"/" + t}>
-                <h4>{t}</h4>
+              <span style={{ color: "cornflowerblue", padding: "0 0.5rem" }}>
+                ⇄
+              </span>
+              <a
+                href={"/" + t}
+                style={{
+                  padding: "0 0.2rem",
+                  fontSize: "0.7rem",
+                  textTransform: "uppercase",
+                  color: "grey",
+                }}
+              >
+                {t}
               </a>
             </div>
           </h3>

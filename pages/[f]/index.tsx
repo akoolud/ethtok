@@ -1,8 +1,10 @@
-import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import { Layout } from "../../components/Layout";
+import { Title } from "../../components/Title";
 import styles from "../../styles/Home.module.scss";
+import { GetDateString } from "../../util/date";
 import { useGetConversationList } from "../../util/tx";
 
 const TxInfoForAddress = ({ info }: { info: IInfo }) => {
@@ -15,7 +17,9 @@ const TxInfoForAddress = ({ info }: { info: IInfo }) => {
         </div>
         <div className={styles["tx-info-item"]}>
           <div>Latest Message</div>
-          <div>{info.latestMessage || "---"}</div>
+          <div>
+            {info.latestMessage ? GetDateString(info.latestMessage) : "---"}
+          </div>
         </div>
       </div>
       <div className={styles["tx-info-row"]}>
@@ -25,37 +29,48 @@ const TxInfoForAddress = ({ info }: { info: IInfo }) => {
         </div>
         <div className={styles["tx-info-item"]}>
           <div>Latest Transaction</div>
-          <div>{info.latestTX || "---"}</div>
+          <div>{info.latestTX ? GetDateString(info.latestTX) : "---"}</div>
         </div>
       </div>
     </div>
   );
 };
 export default function ConversatioPage() {
-  const [val, setval] = React.useState(
-    "0xb66cd966670d962c227b3eaba30a872dbfb995db"
-  );
+  const router = useRouter();
+  const { f } = router.query;
+  const from = f?.toString();
   const [convosLoading, convosErr, convos, txInfo] =
-    useGetConversationList(val);
+    useGetConversationList(from);
+  const [val, setval] = React.useState("");
+  console.log("f", f);
 
+  const onEnter = (e) => {
+    if (e.key === "Enter") {
+      onSubmit();
+    }
+  };
+  const onSubmit = () => {
+    router.push("/" + val);
+  };
   return (
     <Layout>
-      {" "}
       <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="/">EthTok</a>
-        </h1>
+        <Title />
         <div className={styles.search}>
-          <input value={val} onChange={(e) => setval(e.target.value)} />
-          <button>
+          <input
+            value={val}
+            onChange={(e) => setval(e.target.value)}
+            onKeyDown={onEnter}
+          />
+          <button onClick={onSubmit}>
             <img src="/assets/img/search.png" alt="" />
           </button>
         </div>
         <div className={styles["card-container"]}>
-          {convosErr && <p className="error">{convosErr}</p>}
-          {val && convosLoading ? (
+          {f !== undefined && convosErr && <p className="error">{convosErr}</p>}
+          {convosLoading ? (
             <p>
-              Loading Conversations For <a>{val}</a>
+              Loading Conversations For <a>{from}</a>
             </p>
           ) : Object.keys(convos).length ? (
             <div>
@@ -64,11 +79,11 @@ export default function ConversatioPage() {
                 <Link
                   key={"card" + i}
                   className={styles["convo"]}
-                  href={"/" + val + "/" + c}
+                  href={"/" + from + "/" + c}
                 >
                   <div className={styles["from"]}>
                     <div className={styles["avatar"]}>
-                      <h3>{val}</h3>
+                      <h3>{from}</h3>
                     </div>
                   </div>
                   <div className={styles["count"]}>
@@ -83,7 +98,7 @@ export default function ConversatioPage() {
               ))}
             </div>
           ) : (
-            <p className={styles.description}>No results</p>
+            f !== undefined && <p className={styles.description}>No results</p>
           )}
         </div>
       </main>

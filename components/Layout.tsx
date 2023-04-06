@@ -31,7 +31,12 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           </a>
           made me do this
         </div>
-        <span>☕ 0x245F8445DAfdE3D3bc8ef4dCCC2a4550Ee091B55</span>
+        <a
+          className="myaddress"
+          href="https://etherscan.io/address/0x245F8445DAfdE3D3bc8ef4dCCC2a4550Ee091B55"
+        >
+          ☕ 0x245F8445DAfdE3D3bc8ef4dCCC2a4550Ee091B55
+        </a>
       </footer>
       <style jsx global>{`
         html,
@@ -41,6 +46,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           font-family: -apple-system, BlinkMacSystemFont, Manrope, Segoe UI,
             Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
             Helvetica Neue, sans-serif;
+          min-height: 100vh;
         }
         * {
           box-sizing: border-box;
@@ -59,6 +65,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           flex-direction: column;
           align-items: center;
           justify-content: center;
+          min-height: 100vh;
         }
         main {
           max-width: 69rem;
@@ -77,11 +84,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
           align-items: center;
           justify-content: center;
         }
-        footer a {
+        footer div a {
           color: cornflowerblue;
           padding: 0 0.375rem;
         }
-        footer span {
+        footer .myaddress {
           color: grey;
           text-transform: uppercase;
           font-size: 0.6rem;
