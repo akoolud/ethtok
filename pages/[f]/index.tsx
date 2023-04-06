@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
+import { Layout } from "../../components/Layout";
 import styles from "../../styles/Home.module.scss";
 import { useGetConversationList } from "../../util/tx";
 
@@ -38,22 +39,8 @@ export default function ConversatioPage() {
     useGetConversationList(val);
 
   return (
-    <div className={"container"}>
-      <Head>
-        <title>EthTok - Ethereum Chats</title>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin=""
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Manrope&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
-
+    <Layout>
+      {" "}
       <main>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">EthTok</a>
@@ -100,44 +87,6 @@ export default function ConversatioPage() {
           )}
         </div>
       </main>
-
-      <style jsx>{`
-        main {
-          max-width: 90rem;
-          width: 100%;
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        .container {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-        }
-        .error {
-          padding: 0.375rem;
-          color: crimson;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
+    </Layout>
   );
 }
