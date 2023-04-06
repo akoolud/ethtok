@@ -21,7 +21,9 @@ export default function Home() {
     <Layout>
       <main>
         <Title />
-        {messagesErr && <p className="error">{messagesErr}</p>}
+        {f !== undefined && messagesErr && (
+          <p className="error">{messagesErr}</p>
+        )}
         <div className={styles["card-container"]}>
           <h3
             style={{
@@ -83,7 +85,7 @@ export default function Home() {
               </div>
             ))
           ) : (
-            <p className={styles.description}>No results</p>
+            f !== undefined && <p className={styles.description}>No results</p>
           )}
         </div>
       </main>

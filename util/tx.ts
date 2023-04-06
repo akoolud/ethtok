@@ -122,8 +122,8 @@ export const useGetMessageList = (
     setmsg({});
 
     try {
-      // const txData = await getTransactions(address);
-      const txData = Fake;
+      const txData = await getTransactions(address);
+      // const txData = Fake;
       let total = txData.result?.length || 0;
       let convos = __GetReadable__(txData.result, other);
       convos = convos.filter((i) => i && i.d.length);

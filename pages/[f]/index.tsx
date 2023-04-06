@@ -42,7 +42,6 @@ export default function ConversatioPage() {
   const [convosLoading, convosErr, convos, txInfo] =
     useGetConversationList(from);
   const [val, setval] = React.useState("");
-  console.log("f", f);
 
   const onEnter = (e) => {
     if (e.key === "Enter") {
