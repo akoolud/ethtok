@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { Layout } from "../../components/Layout";
+import { SearchBar } from "../../components/SearchBar";
 import { Title } from "../../components/Title";
 import styles from "../../styles/Home.module.scss";
 import { GetDateString } from "../../util/date";
@@ -41,30 +42,12 @@ export default function ConversatioPage() {
   const from = f?.toString();
   const [convosLoading, convosErr, convos, txInfo] =
     useGetConversationList(from);
-  const [val, setval] = React.useState("");
 
-  const onEnter = (e) => {
-    if (e.key === "Enter") {
-      onSubmit();
-    }
-  };
-  const onSubmit = () => {
-    router.push("/" + val);
-  };
   return (
     <Layout>
       <main>
         <Title />
-        <div className={styles.search}>
-          <input
-            value={val}
-            onChange={(e) => setval(e.target.value)}
-            onKeyDown={onEnter}
-          />
-          <button onClick={onSubmit}>
-            <img src="/assets/img/search.png" alt="" />
-          </button>
-        </div>
+        <SearchBar defaultVal={from} />
         <div className={styles["card-container"]}>
           {f !== undefined && convosErr && <p className="error">{convosErr}</p>}
           {convosLoading ? (
